@@ -53,7 +53,8 @@ zinit light romkatv/powerlevel10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export LANG=en_US
+export LC_ALL=en_US.UTF-8  
+export LANG=en_US.UTF-8
 
 alias cd1="cd /mnt/ssd1"
 alias cd2="cd /mnt/ssd2"
@@ -88,3 +89,4 @@ eval "$(pyenv init --path)"
 alias sleep="systemctl suspend"
 
 
+eval "$(pyenv virtualenv-init -)"
