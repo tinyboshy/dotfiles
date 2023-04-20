@@ -1,36 +1,62 @@
-let g:python_host_prog=$PYENV_ROOT.'/versions/neovim-2/bin/python'
-let g:python3_host_prog=$PYENV_ROOT.'/versions/neovim-3/bin/python'
+set shiftwidth=4
+set tabstop=4
+set expandtab
+set textwidth=0
+set autoindent
+set hlsearch
+set clipboard=unnamed
+syntax on
+set number
 
-"dein Scripts-----------------------------
-if &compatible
-  set nocompatible               " Be iMproved
-endif
+inoremap <expr><CR>  pumvisible() ? "<C-y>" : "<CR>"
 
-" Required:
-set runtimepath+=/home/tinyboshy/.cache/dein/repos/github.com/Shougo/dein.vim
+set completeopt=menuone,noinsert
+inoremap <expr><C-n> pumvisible() ? "<Down>" : "<C-n>"
+inoremap <expr><C-p> pumvisible() ? "<Up>" : "<C-p>"
+inoremap <C-l> <C-g>U<Right>
+inoremap <silent> jj <ESC>
 
-" Required:
-call dein#begin('/home/tinyboshy/.cache/dein')
+call plug#begin()
+Plug 'ntk148v/vim-horizon'
+Plug 'preservim/nerdtree'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'sheerun/vim-polyglot'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'cohama/lexima.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+call plug#end()
 
-" Let dein manage dein
-" Required:
-call dein#add('/home/tinyboshy/.cache/dein/repos/github.com/Shougo/dein.vim')
+" ##############
+" vim-horizon
+" ##############
+" if you don't set this option, this color might not correct
+set termguicolors
 
-" Add or remove your plugins here like this:
-let s:toml_dir = expand('~/.config/nvim')
-call dein#load_toml(s:toml_dir . '/dein.toml', {'lazy': 0})
-call dein#load_toml(s:toml_dir . '/dein_lazy.toml', {'lazy': 1})
+colorscheme horizon
 
-" Required:
-call dein#end()
+" lightline
+let g:lightline = {}
+let g:lightline.colorscheme = 'horizon'
 
-" Required:
-filetype plugin indent on
-syntax enable
+" ##############
+" nerdtree
+" ##############
+" Start NERDTree when Vim is started without file arguments.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 
-" If you want to install not installed plugins on startup.
-if dein#check_install()
-  call dein#install()
-endif
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
-"End dein Scripts-------------------------
+
+" ##############
+" vim-gitgutter
+" ##############
+let g:gitgutter_highlight_lines = 1
+
+
+" ##############
+" coc-nvim
+" ##############
+let g:coc_disable_startup_warning = 1

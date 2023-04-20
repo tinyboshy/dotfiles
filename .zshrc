@@ -5,16 +5,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# rustup shell setup
-# affix colons on either side of $PATH to simplify matching
-case ":${PATH}:" in
-    *:"$HOME/.cargo/bin":*)
-        ;;
-    *)
-        # Prepending path in case a system-installed rustc needs to be overridden
-        export PATH="$HOME/.cargo/bin:$PATH"
-        ;;
-esac
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export PATH="$HOME/.anyenv/bin:$PATH"
+eval "$(anyenv init -)"
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
@@ -40,53 +34,38 @@ zinit light-mode for \
 ### End of Zinit's installer chunk
 
 zinit ice wait lucid
-zinit light zsh-users/zsh-completions # 補完
+zinit light zsh-users/zsh-completions
 zinit ice wait lucid
-zinit light zsh-users/zsh-autosuggestions # 補完
+zinit light zsh-users/zsh-autosuggestions
 zinit ice wait lucid
 zinit light zsh-users/zsh-syntax-highlighting
 zinit ice wait lucid
-zinit  light chrissicool/zsh-256color
+zinit light chrissicool/zsh-256color
 zinit ice depth=1
 zinit light romkatv/powerlevel10k
+zinit ice from"gh" as"program" pick"neofetch"
+zinit light "dylanaraps/neofetch"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export LC_ALL=en_US.UTF-8  
-export LANG=en_US.UTF-8
+alias cdc="cd /mnt/c"
+alias cdd="cd /mnt/d"
+alias cde="cd /mnt/e"
 
-alias cd1="cd /mnt/ssd1"
-alias cd2="cd /mnt/ssd2"
-alias sz="source ~/.zshrc"
-alias rmf="rm -rf"
+alias vi="nvim"
+alias vim="nvim"
+alias view="nvim -R"
 
+setopt no_beep
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt hist_ignore_dups
+setopt share_history
+setopt inc_append_history
 
-# general use
-alias ls='exa'                                                         # ls
-alias l='exa -lbF --git'                                               # list, size, type, git
-alias ll='exa -lbGF --git'                                             # long list
-alias llm='exa -lbGd --git --sort=modified'                            # long list, modified date sort
-alias la='exa -lbhHigUmuSa --time-style=long-iso --git --color-scale'  # all list
-alias lx='exa -lbhHigUmuSa@ --time-style=long-iso --git --color-scale' # all + extended list
+export HISTFILE=~/.zsh_history
+export HISTSIZE=100000
+export SAVEHIST=100000
 
-# specialty views
-alias lS='exa -1'                                                       # one column, just names
-alias lt='exa --tree --level=2'                                         # tree
-
-alias cat="bat"
-
-chpwd() {
-    if [[ $(pwd) != $HOME ]]; then;
-        ls
-    fi
-}
-
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-
-alias sleep="systemctl suspend"
-
-
-eval "$(pyenv virtualenv-init -)"
+export PATH="/home/arkrithm/.local/bin:$PATH"
